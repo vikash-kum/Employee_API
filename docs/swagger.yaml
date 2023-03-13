@@ -1,0 +1,210 @@
+definitions:
+  models.Address:
+    properties:
+      address:
+        type: string
+      city:
+        type: string
+      country:
+        type: string
+      employee:
+        $ref: '#/definitions/models.Employee'
+      id:
+        type: integer
+      pin:
+        type: string
+      type:
+        type: string
+    type: object
+  models.Employee:
+    properties:
+      address:
+        items:
+          $ref: '#/definitions/models.Address'
+        type: array
+      age:
+        type: integer
+      email:
+        type: string
+      empId:
+        type: integer
+      firstName:
+        type: string
+      isActive:
+        type: boolean
+      lastName:
+        type: string
+      mobile:
+        type: string
+      origination:
+        items:
+          $ref: '#/definitions/models.Origination'
+        type: array
+      password:
+        type: string
+      role:
+        type: string
+    type: object
+  models.Origination:
+    properties:
+      designation:
+        type: string
+      durationInYears:
+        type: integer
+      employee:
+        $ref: '#/definitions/models.Employee'
+      id:
+        type: integer
+      originationName:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /:
+    get:
+      description: get all employees
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Employee'
+        "403":
+          description: Forbidden
+          schema:
+            type: "No"
+    post:
+      description: create employee
+      parameters:
+      - description: body for user content
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.Employee'
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: int
+        "403":
+          description: Forbidden
+          schema:
+            type: body
+  /:aid:
+    delete:
+      description: delete the object
+      parameters:
+      - description: The addressId you want to delete
+        in: path
+        name: aid
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: addressId
+    get:
+      description: find address by addressId
+      parameters:
+      - description: the addressed you want to get
+        in: path
+        name: aid
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Address'
+        "403":
+          description: Forbidden
+          schema:
+            type: addressId
+    put:
+      description: update the address
+      parameters:
+      - description: The addressId you want to update
+        in: path
+        name: aid
+        required: true
+        type: string
+      - description: the addressId you want to update
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.Address'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Address'
+        "403":
+          description: Forbidden
+          schema:
+            type: addressId
+  /:eid:
+    delete:
+      description: delete the object
+      parameters:
+      - description: The userId you want to delete
+        in: path
+        name: eid
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: eid
+    get:
+      description: get employee by id
+      parameters:
+      - description: The employeeId you want to get
+        in: path
+        name: eid
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Employee'
+        "403":
+          description: Forbidden
+          schema:
+            type: employeeId
+    put:
+      description: update the user
+      parameters:
+      - description: The employeeId you want to update
+        in: path
+        name: eid
+        required: true
+        type: string
+      - description: body for user content
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.Employee'
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: employeeId
+swagger: "2.0"
